@@ -2,18 +2,22 @@ import React, { useState } from 'react';
 import { ActivityIndicator, StatusBar } from 'react-native';
 
 import * as S from './styles';
+import { useAuth } from '../../contexts/auth';
 import InterLogo from '../../assets/svg/interLogo.svg';
 import IsafeLogo from '../../assets/svg/iSafe.svg';
 import InterpagLogo from '../../assets/svg/interpagLogo.svg'
 import RoundedButton from '../../components/Button/RoundedButton/RoundedButton';
 import Parameters from '../../utils/parameters';
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
     const [loading, setLoading] = useState(false);
+
+    const { signIn } = useAuth();
 
     function handleLogin(email, password) {
         setLoading(true);
         signIn(email, password);
+        navigation.navigate('Home');
       }
 
     return (
@@ -37,7 +41,7 @@ export default function LoginScreen() {
                                 <S.ChangeAccountText>TROCAR</S.ChangeAccountText>
                             </S.ChangeAccountButton>
                         </S.UserInfoView>
-                        <S.LoginButton onPress={() => handleSignIn("leomassak@outlook.com", "123456")}>
+                        <S.LoginButton onPress={() => handleLogin("leomassak@outlook.com", "123456")}>
                             {!!loading ? <ActivityIndicator size="small" color="#fff"/> : <S.LoginText>Entrar</S.LoginText>}
                         </S.LoginButton>
                     </S.UserCard>
